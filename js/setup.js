@@ -1,10 +1,10 @@
 'use strict';
 
 const setupBlock = document.querySelector(`.setup`);
-const namesList = [`Иван`, `Хуан Себастьян`, `Мария`, `Кристоф`, `Виктор`, `Юлия`, `Люпита`, `Вашингтон`];
-const surnamesList = [`да Марья`, `Верон`, `Мирабелла`, `Вальц`, `Онопко`, `Топольницкая`, `Нионго`, `Ирвинг`];
-const coatColorList = [`rgb(101, 137, 164)`, `rgb(241, 43, 107)`, `rgb(146, 100, 161)`, `rgb(56, 159, 117)`, `rgb(215, 210, 55)`, `rgb(0, 0, 0)`];
-const eyesColorList = [`black`, `red`, `blue`, `yellow`, `green`];
+const NAMES_LIST = [`Иван`, `Хуан Себастьян`, `Мария`, `Кристоф`, `Виктор`, `Юлия`, `Люпита`, `Вашингтон`];
+const SURNAMES_LIST = [`да Марья`, `Верон`, `Мирабелла`, `Вальц`, `Онопко`, `Топольницкая`, `Нионго`, `Ирвинг`];
+const COAT_COLORS_LIST = [`rgb(101, 137, 164)`, `rgb(241, 43, 107)`, `rgb(146, 100, 161)`, `rgb(56, 159, 117)`, `rgb(215, 210, 55)`, `rgb(0, 0, 0)`];
+const EYES_COLORS_LIST = [`black`, `red`, `blue`, `yellow`, `green`];
 const similarListElement = setupBlock.querySelector(`.setup-similar-list`);
 const similarWizardTemplate = document.querySelector(`#similar-wizard-template`)
 .content
@@ -12,18 +12,23 @@ const similarWizardTemplate = document.querySelector(`#similar-wizard-template`)
 
 const charactersList = [];
 
+const randomInteger = function (min, max) {
+  let rand = min + Math.random() * (max + 1 - min);
+  return Math.floor(rand);
+};
+
 const createName = function () {
-  const name = namesList[Math.round(Math.random() * (namesList.length - 1))] + ` ` + surnamesList[Math.round(Math.random() * (surnamesList.length - 1))];
+  const name = NAMES_LIST[randomInteger(0, NAMES_LIST.length - 1)] + ` ` + SURNAMES_LIST[randomInteger(0, SURNAMES_LIST.length - 1)];
   return name;
 };
 
 const createCoatColor = function () {
-  const coatColor = coatColorList[Math.round(Math.random() * coatColorList.length)];
+  const coatColor = COAT_COLORS_LIST[randomInteger(0, COAT_COLORS_LIST.length - 1)];
   return coatColor;
 };
 
 const createEyesColor = function () {
-  const eyesColor = eyesColorList[Math.round(Math.random() * eyesColorList.length)];
+  const eyesColor = EYES_COLORS_LIST[randomInteger(0, EYES_COLORS_LIST.length - 1)];
   return eyesColor;
 };
 
