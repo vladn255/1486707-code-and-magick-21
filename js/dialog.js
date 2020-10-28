@@ -11,12 +11,17 @@
   const wizardCoat = setupWizard.querySelector(`.wizard-coat`);
   const wizardEyes = setupWizard.querySelector(`.wizard-eyes`);
   const wizardFireball = document.querySelector(`.setup-fireball-wrap`);
-  const setupBlockPositionTop = window.setup.setupBlock.style.top;
-  const setupBlockPositionLeft = window.setup.setupBlock.style.left;
+  const setupBlock = document.querySelector(`.setup`);
+  const setupBlockPositionTop = setupBlock.style.top;
+  const setupBlockPositionLeft = setupBlock.style.left;
+
+  const COAT_COLORS_LIST = window.setup.COAT_COLORS_LIST;
+  const EYES_COLORS_LIST = window.setup.EYES_COLORS_LIST;
+  const FIREBALL_COLORS_LIST = window.setup.FIREBALL_COLORS_LIST;
 
   const onPopupEscPress = function (evt) {
-    if (!evt.target.matches(`.setup-user-name`)) {
-      window.util.isEscEvent(evt, closePopup);
+    if (!evt.target.classList.contains(`setup-user-name`)) {
+      window.util.isEscapeEvent(evt, closePopup);
     }
   };
 
@@ -32,9 +37,10 @@
   const closePopup = function () {
     setup.classList.add(`hidden`);
     document.removeEventListener(`keydown`, onPopupEscPress);
+    setup.removeEventListener(`keydown`, onEnterEvent);
 
-    window.setup.setupBlock.style.top = setupBlockPositionTop;
-    window.setup.setupBlock.style.left = setupBlockPositionLeft;
+    setupBlock.style.top = setupBlockPositionTop;
+    setupBlock.style.left = setupBlockPositionLeft;
   };
 
   const onClosePopup = function () {
@@ -42,18 +48,26 @@
   };
 
   const onChangeCoatColor = function () {
-    wizardCoat.style.fill = window.util.getRandomItemArray(window.setup.COAT_COLORS_LIST);
+    wizardCoat.style.fill = window.util.getRandomItemArray(COAT_COLORS_LIST);
     setupPlayer.querySelector(`input[name="coat-color"]`).value = wizardCoat.style.fill;
   };
 
   const onChangeEyesColor = function () {
-    wizardEyes.style.fill = window.util.getRandomItemArray(window.setup.EYES_COLORS_LIST);
+    wizardEyes.style.fill = window.util.getRandomItemArray(EYES_COLORS_LIST);
     setupPlayer.querySelector(`input[name="eyes-color"]`).value = wizardEyes.style.fill;
   };
 
   const onChangeFireballColor = function () {
-    wizardFireball.querySelector(`input`).value = window.util.getRandomItemArray(window.setup.FIREBALL_COLORS_LIST);
+    wizardFireball.querySelector(`input`).value = window.util.getRandomItemArray(FIREBALL_COLORS_LIST);
     wizardFireball.querySelector(`.setup-fireball`).style.backgroundColor = wizardFireball.querySelector(`input`).value;
+  };
+
+  const onEnterEvent = function (evt) {
+    if (!evt.target.classList.contains(`setup-submit`)) {
+      window.util.isEnterEvent(evt, function () {
+        evt.preventDefault();
+      });
+    }
   };
 
   setupOpen.addEventListener(`click`, onOpenPopup);
@@ -64,11 +78,7 @@
 
   setupClose.addEventListener(`keydown`, onClosePopup);
 
-  setup.addEventListener(`keydown`, function (evt) {
-    if (!evt.target.matches(`.setup-submit`)) {
-      window.util.isEnterEvent(evt, evt.preventDefault);
-    }
-  });
+  setup.addEventListener(`keydown`, onEnterEvent);
 
   userNameInput.addEventListener(`input`, function () {
     const valueLength = userNameInput.value.length;

@@ -1,7 +1,8 @@
 'use strict';
 
 (function () {
-  const dialogHandle = window.setup.setupBlock.querySelector(`.upload`);
+  const setupBlock = document.querySelector(`.setup`);
+  const dialogHandle = setupBlock.querySelector(`.upload`);
 
 
   dialogHandle.addEventListener(`mousedown`, function (evt) {
@@ -28,8 +29,8 @@
         y: moveEvt.clientY
       };
 
-      window.setup.setupBlock.style.top = (window.setup.setupBlock.offsetTop - shift.y) + `px`;
-      window.setup.setupBlock.style.left = (window.setup.setupBlock.offsetLeft - shift.x) + `px`;
+      setupBlock.style.top = (setupBlock.offsetTop - shift.y) + `px`;
+      setupBlock.style.left = (setupBlock.offsetLeft - shift.x) + `px`;
     };
 
     const onMouseUp = function (upEvt) {
