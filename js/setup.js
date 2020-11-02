@@ -26,10 +26,7 @@
   const successHandler = function (wizards) {
     const fragment = document.createDocumentFragment();
 
-    let maxWizardsCount = CHARACTERS_NUMBER;
-    if (wizards.length < CHARACTERS_NUMBER) {
-      maxWizardsCount = wizards.length;
-    }
+    let maxWizardsCount = wizards.length < CHARACTERS_NUMBER ? wizards.length : CHARACTERS_NUMBER;
 
     for (let i = 0; i < maxWizardsCount; i++) {
       let randomWizardNumber = window.util.randomInteger(0, wizards.length - 1);
@@ -44,24 +41,28 @@
 
   const errorHandler = function (errorMessage) {
     const node = document.createElement(`div`);
-    node.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: red;`;
-    node.style.position = `absolute`;
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = `30px`;
+    node.classList.add(`error`);
 
     node.textContent = errorMessage;
     document.body.insertAdjacentElement(`afterbegin`, node);
   };
 
-  window.backend.load(successHandler, errorHandler);
+  const removeErrorBlock = function () {
+    if (document.querySelector(`.error`)) {
+      document.querySelector(`.error`).remove();
+    }
+  };
 
   const submitHandler = function (evt) {
-    window.backend.save(new FormData(form), function () {
+    removeErrorBlock();
+    const onSuccess = function () {
       setupBlock.classList.add(`hidden`);
-    });
+    };
+    window.backend.save(new FormData(form), onSuccess, errorHandler);
     evt.preventDefault();
   };
+
+  window.backend.load(successHandler, errorHandler);
 
   form.addEventListener(`submit`, submitHandler);
 
