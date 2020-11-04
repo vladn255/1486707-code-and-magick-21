@@ -47,15 +47,19 @@
     closePopup();
   };
 
-  const onChangeCoatColor = function () {
+  const onChangeCoatColor = window.debounce.debounce(function () {
     wizardCoat.style.fill = window.util.getRandomItemArray(COAT_COLORS_LIST);
     setupPlayer.querySelector(`input[name="coat-color"]`).value = wizardCoat.style.fill;
-  };
+    window.setup.coatColor = wizardCoat.style.fill;
+    window.setup.updateWizards();
+  });
 
-  const onChangeEyesColor = function () {
+  const onChangeEyesColor = window.debounce.debounce(function () {
     wizardEyes.style.fill = window.util.getRandomItemArray(EYES_COLORS_LIST);
     setupPlayer.querySelector(`input[name="eyes-color"]`).value = wizardEyes.style.fill;
-  };
+    window.setup.eyesColor = wizardEyes.style.fill;
+    window.setup.updateWizards();
+  });
 
   const onChangeFireballColor = function () {
     wizardFireball.querySelector(`input`).value = window.util.getRandomItemArray(FIREBALL_COLORS_LIST);
